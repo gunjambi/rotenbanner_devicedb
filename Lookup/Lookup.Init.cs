@@ -1,14 +1,24 @@
 // Copyright 2025, gunjambi.
 // SPDX-License-Identifier: MIT
 
+using System;
+using System.IO;
 using System.IO.Compression;
 using System.Reflection;
+using System.Threading;
 
 namespace Rotenbanner
 {
     public static partial class DeviceNameLookup
     {
-        record class State(byte[] Database);
+        class State
+        {
+            public readonly byte[] Database;
+            public State(byte[] database)
+            {
+                Database = database;
+            }
+        }
         static Lazy<State?> s_state = new Lazy<State?>(InitState, LazyThreadSafetyMode.PublicationOnly);
 
         static State? InitState()

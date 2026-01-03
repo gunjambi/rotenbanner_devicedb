@@ -1,6 +1,7 @@
 // Copyright 2025, gunjambi.
 // SPDX-License-Identifier: MIT
 
+using System;
 using System.Runtime.CompilerServices;
 using System.Text;
 
