@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="CLI/CLI.csproj" Id="b0137a73-660a-4a6d-8a7a-c263d1fdaf2b" />
+  <Project Path="Generator/Generator.csproj" Id="63aa80ca-ec2e-4a00-8f60-a33dab36b341" />
+  <Project Path="Lookup/Lookup.csproj" Id="fd7cdd95-d0c3-4a4f-b025-26ca60f65010" />
+</Solution>
