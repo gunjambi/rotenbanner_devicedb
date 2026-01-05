@@ -37,12 +37,12 @@ namespace Generator
             {
                 if (args[ndx] == "-GooglePlayDevices" && ndx < args.Length - 1)
                 {
-                    ParseGooglePlaySupportedDevices(modelToDisplayName, args[ndx] + 1);
+                    ParseGooglePlaySupportedDevices(modelToDisplayName, args[ndx + 1]);
                     ndx++;
                 }
                 else if (args[ndx] == "-AppleDevices" && ndx < args.Length - 1)
                 {
-                    ParseAppleDeviceTraits(modelToDisplayName, args[ndx] + 1);
+                    ParseAppleDeviceTraits(modelToDisplayName, args[ndx + 1]);
                     ndx++;
                 }
                 else
