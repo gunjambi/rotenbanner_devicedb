@@ -1,0 +1,39 @@
+jobs:
+  build-and-publish:
+    permissions:
+      id-token: write  # enable GitHub OIDC token issuance for this job
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: "10.0.x"
+
+      - name: Generate version number
+        run: |
+          DATE=$(date +'%Y%m%d')
+          VERSION="0.0.${DATE}-packagingtest"
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+          echo "Generated version: $VERSION"
+
+      - name: Build package
+        run: |
+          dotnet build Lookup --configuration Release
+          dotnet pack Lookup --configuration Release --no-build -o ./artifacts -p:PackageVersion=${{ env.VERSION }}
+
+      - name: NuGet login
+        uses: NuGet/login@v1
+        id: login
+        with:
+          user: ${{ secrets.NUGET_USER }}
+
+      # Push the package
+      - name: NuGet push
+        run: |
+          dotnet nuget push artifacts/*.nupkg --api-key ${{steps.login.outputs.NUGET_API_KEY}} --source https://api.nuget.org/v3/index.json
+          dotnet nuget push artifacts/*.snupkg --api-key ${{steps.login.outputs.NUGET_API_KEY}} --source https://api.nuget.org/v3/index.json

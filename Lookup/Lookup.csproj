@@ -3,6 +3,8 @@
   <PropertyGroup>
     <TargetFrameworks>net10.0;netstandard2.1</TargetFrameworks>
     <Nullable>enable</Nullable>
+    <Deterministic>true</Deterministic>
+    <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <PackageId>Rotenbanner.DeviceDb</PackageId>
     <Title>Device Model to Marketing Name Database</Title>
@@ -12,19 +14,24 @@
     <Description> A C# library to convert Android or iOS technical model names to human-readable branding names. </Description>
     <Copyright>Copyright 2025, gunjambi</Copyright>
     <PackageProjectUrl>https://github.com/gunjambi/rotenbanner_devicedb</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/gunjambi/rotenbanner_devicedb.git</RepositoryUrl>
+    <RepositoryUrl>https://github.com/gunjambi/rotenbanner_devicedb</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageTags>android;ios;</PackageTags>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(TargetFramework)'=='net10.0'">
     <IsTrimmable>True</IsTrimmable>
     <IsAotCompatible>True</IsAotCompatible>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />
+  </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="Resources\Database.dat" />
