@@ -3,14 +3,38 @@
   <PropertyGroup>
     <TargetFrameworks>net10.0;netstandard2.1</TargetFrameworks>
     <Nullable>enable</Nullable>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <PackageId>Rotenbanner.DeviceDb</PackageId>
+    <Title>Device Model to Marketing Name Database</Title>
+    <Version>0.0.1-packagingtest</Version>
+    <Authors>gunjambi</Authors>
+    <Company />
+    <Description> A C# library to convert Android or iOS technical model names to human-readable branding names. </Description>
+    <Copyright>Copyright 2025, gunjambi</Copyright>
+    <PackageProjectUrl>https://github.com/gunjambi/rotenbanner_devicedb</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/gunjambi/rotenbanner_devicedb.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageTags>android;ios;</PackageTags>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework)'=='net10.0'">
+    <IsTrimmable>True</IsTrimmable>
+    <IsAotCompatible>True</IsAotCompatible>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Resources\Database.dat" />
+    <EmbeddedResource Include="Resources\Database.dat" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Resources\Database.dat" />
+    <None Include="..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>
