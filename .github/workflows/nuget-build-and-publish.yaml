@@ -7,7 +7,7 @@ jobs:
   build-and-publish:
     runs-on: macos-latest
     permissions:
-      id-token: write  # enable GitHub OIDC token issuance for this job
+      id-token: write
 
     steps:
       - name: Latest XCode
@@ -26,6 +26,7 @@ jobs:
           dotnet-version: "10.0.x"
         
       - name: Prepare database
+        id: db_update
         run: |
           curl --output google_play_devices.csv https://storage.googleapis.com/play_public/supported_devices.csv
 
@@ -35,41 +36,39 @@ jobs:
           dotnet run --project Generator -- -GooglePlayDevices google_play_devices.csv -AppleDevices "$IPHONE_TRAITS_PATH"
 
           DATE=$(date +'%Y%m%d')
-          VERSION="0.0.${DATE}-packagingtest"
+          VERSION="0.0.${DATE}-buildtest"
           echo "VERSION=$VERSION" >> $GITHUB_ENV
 
-      - name: Check if database is updated
-        id: check_db_updated
-        run: |
           if cmp -s Database.dat Lookup/Resources/Database.dat; then
             echo "Database is up to date."
             echo "db_updated=false" >> $GITHUB_OUTPUT
           else
+            echo "Database updated."
             mv Database.dat Lookup/Resources/Database.dat
             echo "db_updated=true" >> $GITHUB_OUTPUT
           fi
 
       - name: Build package
-        if: steps.check_db_updated.outputs.check_db_updated == true
+        if: steps.db_update.outputs.db_updated == true
         run: |
           dotnet build Lookup --configuration Release
           dotnet pack Lookup --configuration Release --no-build -o ./artifacts -p:PackageVersion=${{ env.VERSION }}
 
       - name: NuGet login
-        if: steps.check_db_updated.outputs.check_db_updated == true
+        if: steps.db_update.outputs.db_updated == true
         uses: NuGet/login@v1
         id: login
         with:
           user: ${{ secrets.NUGET_USER }}
 
       - name: NuGet push
-        if: steps.check_db_updated.outputs.check_db_updated == true
+        if: steps.db_update.outputs.db_updated == true
         run: |
           dotnet nuget push artifacts/*.nupkg --api-key ${{steps.login.outputs.NUGET_API_KEY}} --source https://api.nuget.org/v3/index.json
           dotnet nuget push artifacts/*.snupkg --api-key ${{steps.login.outputs.NUGET_API_KEY}} --source https://api.nuget.org/v3/index.json --skip-duplicate
 
       - name: Update repo
-        if: steps.check_db_updated.outputs.check_db_updated == true
+        if: steps.db_update.outputs.db_updated == true
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
