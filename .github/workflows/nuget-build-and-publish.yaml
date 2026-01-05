@@ -62,9 +62,17 @@ jobs:
         with:
           user: ${{ secrets.NUGET_USER }}
 
-      # Push the package
       - name: NuGet push
         if: steps.check_db_updated.outputs.check_db_updated == true
         run: |
           dotnet nuget push artifacts/*.nupkg --api-key ${{steps.login.outputs.NUGET_API_KEY}} --source https://api.nuget.org/v3/index.json
           dotnet nuget push artifacts/*.snupkg --api-key ${{steps.login.outputs.NUGET_API_KEY}} --source https://api.nuget.org/v3/index.json --skip-duplicate
+
+      - name: Update repo
+        if: steps.check_db_updated.outputs.check_db_updated == true
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add Lookup/Resources/Database.dat
+          git commit -m "Automated database update"
+          git push
