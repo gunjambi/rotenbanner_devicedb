@@ -11,7 +11,7 @@ jobs:
 
     steps:
       - name: Latest XCode
-      - uses: maxim-lobanov/setup-xcode@v1
+        uses: maxim-lobanov/setup-xcode@v1
         with:
           xcode-version: latest
 
