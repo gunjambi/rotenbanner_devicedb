@@ -8,6 +8,7 @@ jobs:
     runs-on: macos-latest
     permissions:
       id-token: write
+      contents: write
 
     steps:
       - name: Latest XCode
@@ -36,7 +37,7 @@ jobs:
           dotnet run --project Generator -- -GooglePlayDevices google_play_devices.csv -AppleDevices "$IPHONE_TRAITS_PATH"
 
           DATE=$(date +'%Y%m%d')
-          VERSION="0.0.${DATE}-buildtest"
+          VERSION="0.0.${DATE}-buildtest2"
           echo "VERSION=$VERSION" >> $GITHUB_ENV
 
           if cmp -s Database.dat Lookup/Resources/Database.dat; then
