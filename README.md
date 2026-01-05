@@ -18,6 +18,12 @@ The source code in this repository is licensed under MIT License.
 
 I believe the database itself is a collection of facts, and hence not copyrightable.
 
+## Versioning
+
+This package is updated automatically every 2 weeks and a new version will be published with a version `1.0.YEAR|MONTH|DAY`.
+For example, version 1.0.20260105 would be a database built on 2026-01-05.
+See the repository's Github Action for the implementation.
+
 ## Alternatives to Consider
 
 https://github.com/NaverPayDev/device-info, Typescript. Android and iOS devices.
@@ -34,7 +40,7 @@ https://www.npmjs.com/package/ios-device-list, Javascript, iOS only.
 
 ## Updating Database
 
-This package is NOT GUARANTEED to stay up-to-date when new devices get added. To update the DB, see [Generator Readme](Generator/README.md)
+To update the DB manually, see [Generator Readme](Generator/README.md)
 
 ## Q & A:
 

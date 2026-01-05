@@ -1,6 +1,8 @@
 name: Build and publish
 
 on:
+  schedule:
+    - cron: "12 13 */14 * *" # pick some non-midnight, non-exact hour time. Every 14th day of the month
   workflow_dispatch:
 
 jobs:
@@ -37,7 +39,7 @@ jobs:
           dotnet run --project Generator -- -GooglePlayDevices google_play_devices.csv -AppleDevices "$IPHONE_TRAITS_PATH"
 
           DATE=$(date +'%Y%m%d')
-          VERSION="0.0.${DATE}-buildtest2"
+          VERSION="1.0.${DATE}"
           echo "VERSION=$VERSION" >> $GITHUB_ENV
 
           if cmp -s Database.dat Lookup/Resources/Database.dat; then
@@ -50,20 +52,20 @@ jobs:
           fi
 
       - name: Build package
-        if: steps.db_update.outputs.db_updated == 'true'
+        if: steps.db_update.outputs.db_updated == 'true' || github.event_name == 'workflow_dispatch'
         run: |
           dotnet build Lookup --configuration Release
           dotnet pack Lookup --configuration Release --no-build -o ./artifacts -p:PackageVersion=${{ env.VERSION }}
 
       - name: NuGet login
-        if: steps.db_update.outputs.db_updated == 'true'
+        if: steps.db_update.outputs.db_updated == 'true' || github.event_name == 'workflow_dispatch'
         uses: NuGet/login@v1
         id: login
         with:
           user: ${{ secrets.NUGET_USER }}
 
       - name: NuGet push
-        if: steps.db_update.outputs.db_updated == 'true'
+        if: steps.db_update.outputs.db_updated == 'true' || github.event_name == 'workflow_dispatch'
         run: |
           dotnet nuget push artifacts/*.nupkg --api-key ${{steps.login.outputs.NUGET_API_KEY}} --source https://api.nuget.org/v3/index.json
           dotnet nuget push artifacts/*.snupkg --api-key ${{steps.login.outputs.NUGET_API_KEY}} --source https://api.nuget.org/v3/index.json --skip-duplicate
@@ -71,8 +73,9 @@ jobs:
       - name: Update repo
         if: steps.db_update.outputs.db_updated == 'true'
         run: |
+          DATE=$(date +'%Y%m%d')
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add Lookup/Resources/Database.dat
-          git commit -m "Automated database update"
+          git commit -m "Automated database update ($DATE)"
           git push
