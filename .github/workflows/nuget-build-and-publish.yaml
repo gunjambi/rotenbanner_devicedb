@@ -2,7 +2,7 @@ name: Build and publish
 
 on:
   schedule:
-    - cron: "12 13 */14 * *" # pick some non-midnight, non-exact hour time. Every 14th day of the month
+    - cron: "12 13 1,16 * *" # pick some non-midnight, non-exact hour time. Twice a month
   workflow_dispatch:
 
 jobs:
