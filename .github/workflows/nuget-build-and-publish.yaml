@@ -54,7 +54,7 @@ jobs:
       - name: Build package
         if: steps.db_update.outputs.db_updated == 'true' || github.event_name == 'workflow_dispatch'
         run: |
-          dotnet build Lookup --configuration Release
+          dotnet build Lookup --configuration Release -p:AssemblyVersion=${{ env.VERSION }}
           dotnet pack Lookup --configuration Release --no-build -o ./artifacts -p:PackageVersion=${{ env.VERSION }}
 
       - name: NuGet login
