@@ -10,7 +10,7 @@ DeviceNameLookup.TryGetDisplayName("GT-S6810B"); // "Samsung Galaxy Fame"
 DeviceNameLookup.TryGetDisplayName("iPhone10,7"); // null, no such device
 ```
 
-The conversion is performed using the embedded database. No network requests are made.
+The conversion is performed using the embedded database. No network requests are made. Available on [nuget](https://www.nuget.org/packages/Rotenbanner.DeviceDb).
 
 ## License
 
