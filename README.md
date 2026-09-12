@@ -24,6 +24,8 @@ This package is updated automatically every 2 weeks and a new version will be pu
 For example, version 1.0.20260105 would be a database built on 2026-01-05.
 See the repository's Github Action for the implementation.
 
+This versioning scheme allows you to add wildcard dependency `<PackageReference Include="Rotenbanner.DeviceDb" Version="1.0.*" />` and get the latest database on every `dotnet restore`.
+
 ## Alternatives to Consider
 
 https://github.com/NaverPayDev/device-info, Typescript. Android and iOS devices.
@@ -70,6 +72,16 @@ Yuppers.
 I really recommend checking the [Generator Readme](Generator/README.md) and build your own database.
 I promise the included database doesn't contain anything weird but in the long term, it's cheaper to verify than to trust.
 Also, by generating the DB yourself you get the latest devices there.
+
+**Isn't using a wildcard dependency harmful, unreproducible and a supply chain risk on steroids:**
+
+You weren't going to read the source code anyway. And you didn't decompile the published nuget package to see if it's actually built from this source. You are trusting some nickname on internet, the wildcard is not changing that.
+When in doubt, build your own database.
+
+**Does this project use AI:**
+
+All code is written and designed by a me, a human. An AI powered security review has been run for the project, which found no issues but pointed out `AssemblyVersion` did not match the package version.
+Hence this fix in the publishing pipeline can be considered AI-assisted.
 
 **What's, with, these, commas:**
 
