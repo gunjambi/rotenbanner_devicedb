@@ -22,6 +22,7 @@
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageTags>android;ios;</PackageTags>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(TargetFramework)'=='net10.0'">
