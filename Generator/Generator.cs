@@ -150,6 +150,9 @@ namespace Generator
                     // No model name? Skip
                     if (string.IsNullOrEmpty(device.ModelName))
                         continue;
+                    // Source data has a row with "unknown" model name. This is not meaningful to map.
+                    if (device.ModelName == "unknown")
+                        continue;
 
                     // No human name => skip. We could use the retail branding name
                     // but is it any useful? You'd need to search online anyway.
